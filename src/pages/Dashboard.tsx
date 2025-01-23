@@ -1,108 +1,91 @@
-import { useState } from "react";
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { LayoutGrid, Boxes, LogIn, UserPlus } from "lucide-react";
+import GraficaBarras from "../components/ui/GraficaBarras";
+import GraficaRadar from "../components/ui/GraficaRadar";
 
-export default function Dashboard() {
-  const [userInfo, setUserInfo] = useState({
-    name: "NOMBRE",
-    email: "CORREO ELECTRONICO",
-    country: "Mexico",
-    phone: "123-456-7890",
-  });
+const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const etiquetasTiempo = ["Alex", "Eduardo", "Miguel"];
+  const datosTiempo = [6.5, 4.2, 6.7];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Información actualizada:", userInfo);
-    alert("Información actualizada exitosamente.");
-  };
+  const etiquetasConocimiento = ["JavaScript", "Tailwind CSS", "HTML"];
+  const conjuntosConocimiento = [
+    { etiqueta: "Alex", datos: [25, 50, 60] },
+    { etiqueta: "Eduardo", datos: [10, 30, 45] },
+    { etiqueta: "Miguel", datos: [20, 40, 65] },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <div className="w-1/2 bg-primary-light p-10 flex items-center justify-center">
-        <p className="text-lg text-primary-white">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-      </div>
+    <div className="min-h-screen bg-slate-50">
+      <header className="bg-indigo-600 text-white px-4 py-3 shadow-lg">
+        <div className="container mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-6">
+          <Link to="/Dashboard">
+            <h1 className="text-xl font-bold">TaskHub</h1>
+            </Link>
+            <nav className="hidden md:flex space-x-4">
+              <Link to="/Equipos">
+                <Button variant="ghost" className="text-white hover:text-white hover:bg-indigo-500">
+                  <LayoutGrid className="h-4 w-4 mr-2" />
+                  Equipos
+                </Button>
+              </Link>
+              <Link to="/task-hub">
+                <Button variant="ghost" className="text-white hover:text-white hover:bg-indigo-500">
+                  <Boxes className="h-4 w-4 mr-2" />
+                  Proyectos
+                </Button>
+              </Link>
+              <Link to="/Recursos">
+                <Button variant="ghost" className="text-white hover:text-white hover:bg-indigo-500">
+                  <LayoutGrid className="h-4 w-4 mr-2" />
+                  Recursos
+                </Button>
+              </Link>
+            </nav>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Link to="/login">
+              <Button variant="ghost" className="text-white hover:text-white hover:bg-indigo-500">
+                <LogIn className="h-4 w-4 mr-2" />
+                Iniciar Sesión
+              </Button>
+            </Link>
+            <Link to="/Registro">
+              <Button variant="secondary" className="bg-white text-indigo-600 hover:bg-indigo-50">
+                <UserPlus className="h-4 w-4 mr-2" />
+                Registrar Usuario
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <div className="w-1/2 bg-accent-light p-10 flex items-center justify-center">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-sm space-y-6 bg-primary-dark p-6 rounded-lg shadow-md"
-        >
-          <h2 className="text-xl font-bold text-primary-white text-center">
-            Información del usuario
-          </h2>
-          <div>
-            <Label htmlFor="name" className="block text-sm font-medium text-primary-white">
-              Nombre
-            </Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              value={userInfo.name}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+      <main className="container mx-auto py-8 px-4">
+        <h2 className="text-3xl font-semibold text-primary-dark mb-4">Bienvenido al Dashboard</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-primary-white p-6 shadow-md rounded-lg">
+            <h3 className="text-xl font-bold text-primary-dark mb-4">Horas Trabajadas</h3>
+            <GraficaBarras
+              etiquetas={etiquetasTiempo}
+              datos={datosTiempo}
+              titulo="Horas Trabajadas"
             />
           </div>
-          <div>
-            <Label htmlFor="email" className="block text-sm font-medium text-primary-white">
-              Correo electrónico
-            </Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              value={userInfo.email}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+          <div className="bg-primary-white p-6 shadow-md rounded-lg">
+            <h3 className="text-xl font-bold text-primary-dark mb-4">Conocimiento en Lenguajes</h3>
+            <GraficaRadar
+              etiquetas={etiquetasConocimiento}
+              conjuntosDatos={conjuntosConocimiento}
             />
           </div>
-          <div>
-            <Label htmlFor="country" className="block text-sm font-medium text-primary-white">
-              País
-            </Label>
-            <Input
-              id="country"
-              name="country"
-              type="text"
-              value={userInfo.country}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-            />
-          </div>
-          <div>
-            <Label htmlFor="phone" className="block text-sm font-medium text-primary-white">
-              Número de teléfono
-            </Label>
-            <Input
-              id="phone"
-              name="phone"
-              type="tel"
-              value={userInfo.phone}
-              onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-            />
-          </div>
-          <div className="pt-4">
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-secondary-light text-white font-bold py-2 px-4 rounded"
-            >
-              Guardar cambios
-            </Button>
-          </div>
-        </form>
-      </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default Dashboard;

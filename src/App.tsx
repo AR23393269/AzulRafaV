@@ -1,17 +1,22 @@
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import RegistrarUsuario from './pages/Registro';
-import Dashboard from './pages/Dashboard';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Registro from "./pages/Registro";
+import Equipos from "./pages/Equipos";
+import Recursos from "./pages/Recursos";
+import TaskHub from "./pages/task-hub";
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100 py-10">
-        <Routes>
-          <Route path="/" element={<RegistrarUsuario />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/Login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/equipos" element={<Equipos />} />
+        <Route path="/recursos" element={<Recursos />} />
+        <Route path="/task-hub" element={<TaskHub />} />
+      </Routes>
     </Router>
   );
 }

@@ -13,6 +13,9 @@ export default function RegistrarUsuario() {
     confirmPassword: ''
   });
 
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -23,8 +26,19 @@ export default function RegistrarUsuario() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Datos del formulario:', formData);
-    navigate('/dashboard');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    setError(null);
+    setSuccessMessage("¡Registro exitoso! Redirigiendo al Dashboard...");
+
+    setTimeout(() => {
+      console.log('Datos del formulario:', formData);
+      navigate('/dashboard');
+    }, 3000);
   };
 
   return (
@@ -100,6 +114,8 @@ export default function RegistrarUsuario() {
               />
             </div>
           </div>
+          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {successMessage && <p className="text-green-400 text-sm">{successMessage}</p>}
           <div>
             <Button
               type="submit"
